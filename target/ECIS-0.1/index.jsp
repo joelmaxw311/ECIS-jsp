@@ -8,7 +8,7 @@
         <title>ECIS</title>
     </head>
     <body>
-        <h1>Election Campaign Information</h1>
+        <h1>Election Candidate Information</h1>
         <div class="container">
             <form class="form-inline" method="post" action="parties.jsp">
                 <button type="submit" name="save" class="btn btn-primary">View Political Parties</button>

@@ -1,0 +1,44 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Objects"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSetMetaData"%>
+<%@page import="css475.dropstudents.ecis.MySqlConnection"%>
+<table border="1">
+<%
+{ /* <--- start "main" block */
+MySqlConnection server = null;
+MySqlConnection.Database db = null;
+ResultSet resultSet = null;
+ResultSetMetaData resultMeta = null;
+String dbName = "ECIS";
+String host = "css475groupproject.coqyi6uxbprc.us-east-1.rds.amazonaws.com";
+int port = 3306;
+String sqlQuery = Objects.toString(session.getAttribute("query")); // get query string
+try {
+    server = new MySqlConnection(host, port);
+    // Connect to database as read-only user (only SELECT permission)
+    db = server.connect(dbName, "public", "password");
+    // Execute query (testQuery) on database (db)
+    resultSet = db.query(sqlQuery);
+    resultMeta = resultSet.getMetaData();              %>
+    <tr>
+<%  for (int col = 1; col <= resultMeta.getColumnCount(); col++) { %>
+<td><%=resultMeta.getColumnName(col) %></td>
+<%  } /* end for loop */        %>
+    </tr>
+<%  while(resultSet.next()) {   %>
+    <tr>
+<%      for (int col = 1; col <= resultMeta.getColumnCount(); col++) { %>
+        <td><%=Objects.toString(resultSet.getString(col),"") %></td>
+<%      } /* end for loop */    %>
+    </tr>
+<%  } /* end while block */
+    db.close();
+} catch (Exception e) {
+    e.printStackTrace();
+} /* end catch */               %>
+</table>
+<%
+} /* <--- end "main" block */
+%>

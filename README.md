@@ -6,7 +6,7 @@ This is a web app powerd by Java Server Pages. The app can query the ECIS MySql 
 
 * Java Development Kit - You probably already have this
 * [Netbeans IDE](https://netbeans.apache.org/download/index.html)
-* [Apache Tomcat](http://tomcat.apache.org/) - Download version 7.0.100
+* [Apache Tomcat](http://tomcat.apache.org/) - Download version 7.0.100 (Binary Distributions > Core > .zip)
 
 ## Setup
 

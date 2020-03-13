@@ -7,7 +7,9 @@
 /* get search keywords and build an SQL query */
 String param = request.getParameter("keywords");
 String[] keywords = param == null ? new String[0] : param.split(" ");
-String searchQuery = "SELECT Id, FirstName, MiddleName, LastName FROM Candidate";
+String searchQuery = "SELECT FirstName, MiddleName, LastName, City, StateId AS State "
+		+ "FROM Candidate "
+		+ "JOIN Location ON (Candidate.LocationId = Location.Id)";
 boolean haveKW = keywords != null && keywords.length > 0; // are keywords given?
 if (haveKW) {
     String[] criteria = { "firstName", "middleName", "lastName" };

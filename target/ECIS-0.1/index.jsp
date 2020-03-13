@@ -18,7 +18,14 @@
                 <input type="text" name="keywords" class="form-control" placeholder="(leave blank for no filter)" >
                 <button type="submit" name="save" class="btn btn-primary">Search Candidates</button>
             </form>
-            
+
+			<br/>
+			
+            <form class="form-inline" method="post" action="votingitems.jsp">
+                <input type="text" name="keywords" class="form-control" placeholder="(leave blank for no filter)" >
+                <button type="submit" name="save" class="btn btn-primary">Search Voting Items</button>
+            </form>
+			
             <h2>States</h2>
             <% /* Execute the query and display a table with results: */ %>
             <% session.setAttribute("query", "SELECT * FROM State"); /* pass testQuery to query.jspf */ %>

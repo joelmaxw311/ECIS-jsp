@@ -6,7 +6,8 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("candidateid");
-String basicQuery = "SELECT FirstName, MiddleName, LastName, IFNULL(PoliticalParty.Name, 'No Party Affiliation') as Party, City, StateId AS State "
+String basicQuery = "SELECT CONCAT(FirstName) 'First Name', CONCAT(MiddleName) 'Middle Name', CONCAT(LastName) 'Last Name', "
+		+ "IFNULL(PoliticalParty.Name, 'No Party Affiliation') as Party, City, CONCAT(StateId) AS 'State' "
 		+ "FROM Candidate "
 		+ "JOIN Location ON (Candidate.LocationId = Location.Id) "
 		+ "LEFT JOIN PoliticalParty ON (Candidate.PartyId = PoliticalParty.Id)";

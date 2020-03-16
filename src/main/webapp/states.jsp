@@ -13,10 +13,9 @@
         <%@ include file="WEB-INF/head.html" %>
     </head>
     <body>
-        <p><small><a href="index.jsp">Home</a></small></p>
-        <h1>Political Parties</h1>
+        <h2>States</h2>
         <% /* Execute the query and display a table with results: */ %>
-        <% session.setAttribute("query", testQuery); /* pass testQuery to query.jspf */ %>
+        <% session.setAttribute("query", "SELECT * FROM State"); /* pass testQuery to query.jspf */ %>
         <%@ include file="WEB-INF/jspf/query.jspf" %>
     </body>
 </html>

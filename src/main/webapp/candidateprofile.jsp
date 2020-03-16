@@ -6,7 +6,7 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("candidateid");
-String basicQuery = "SELECT FirstName, MiddleName, LastName, IFNULL(PoliticalParty.Name, 'No Party Affiliation') as Party, City, StateId AS State "
+String basicQuery = "SELECT FirstName AS `First Name`, MiddleName AS `Middle Name`, LastName AS `Last Name`, IFNULL(PoliticalParty.Name, 'No Party Affiliation') as Party, City, StateId AS State "
 		+ "FROM Candidate "
 		+ "JOIN Location ON (Candidate.LocationId = Location.Id) "
 		+ "LEFT JOIN PoliticalParty ON (Candidate.PartyId = PoliticalParty.Id)";
@@ -21,8 +21,10 @@ contactQuery += " WHERE Candidate.ID = " + param;
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Candidate Profile</title>
+    <%@ include file="WEB-INF/head.html" %>
 </head>
-<body>    
+<body>   
+    <p><small><a href="index.jsp">Home</a></small></p>
     <h1>Candidate Basic Info</h1>
     <% /* Execute the query and display a table with results: */ %>
     <% session.setAttribute("query", basicQuery); /* pass query to query.jspf */ %>

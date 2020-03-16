@@ -6,20 +6,26 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("keywords");
-String[] keywords = param == null ? new String[0] : param.split(" ");
 String searchQuery = "SELECT Title, Description FROM VotingItem";
-boolean haveKW = keywords != null && keywords.length > 0; // are keywords given?
+boolean haveKW = param != null && !param.isEmpty(); // are keywords given?
 if (haveKW) {
     String[] criteria = { "title", "description" };
-    List<String> conditions = new ArrayList();
-    for (String col : criteria) {
-        for (String k : keywords) {
-            String condition = col + " LIKE '%" + k + "%'";
-            conditions.add(condition);
+    List<String> criteriaConditions = new ArrayList();
+    for (String k : param.split(", ")) {
+        List<String> conditions = new ArrayList();
+        for (String ok : k.split(" + ")) {
+            List<String> orConditions = new ArrayList();
+            for (String col : criteria) {
+                String condition = col + " LIKE '%" + ok.trim() + "%'";
+                orConditions.add(condition);
+            }
+            conditions.add("( " + String.join(" OR ", orConditions) + " )");
         }
+        criteriaConditions.add("( " + String.join(" AND ", conditions) + " )");
     }
-    searchQuery += " WHERE " + String.join(" OR ", conditions);
+    searchQuery += " WHERE " + String.join(" OR ", criteriaConditions);
 }
+searchQuery = "SELECT `Title`, `Description` FROM ( " + searchQuery + " ) Filtered";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,12 +33,14 @@ if (haveKW) {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Browse Voting Items</title>
+    <%@ include file="WEB-INF/head.html" %>
 </head>
 <body>    
+    <p><small><a href="index.jsp">Home</a></small></p>
     <h1>Voting Items</h1>
     <form class="form-inline" method="post" action="votingitems.jsp">
         <input type="text" name="keywords" class="form-control" 
-               placeholder="keywords" value="<%=String.join(" ", keywords)%>" >
+               placeholder="keywords, search phrases + sentences" value="<%=param%>" >
         <button type="submit" name="save" class="btn btn-primary">Search</button>
     </form>
     <% /* Execute the query and display a table with results: */ %>

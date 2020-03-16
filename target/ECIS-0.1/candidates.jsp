@@ -7,7 +7,8 @@
 /* get search keywords and build an SQL query */
 String param = request.getParameter("keywords");
 String[] keywords = param == null ? new String[0] : param.split(" ");
-String searchQuery = "SELECT FirstName, MiddleName, LastName, City, StateId AS State "
+String searchQuery = "SELECT CONCAT(FirstName) 'First Name', CONCAT(MiddleName) 'Middle Name', CONCAT(LastName) 'Last Name', "
+		+ "City, CONCAT(StateId) AS 'State', CONCAT('<a href=\"/ECIS/candidateprofile.jsp?candidateid=', Candidate.Id, '\">view</a>') AS Profile "
 		+ "FROM Candidate "
 		+ "JOIN Location ON (Candidate.LocationId = Location.Id)";
 boolean haveKW = keywords != null && keywords.length > 0; // are keywords given?

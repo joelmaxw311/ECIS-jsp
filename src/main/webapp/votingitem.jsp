@@ -9,7 +9,7 @@ String param = request.getParameter("votingitemid");
 String basicQuery = "SELECT Title, Description "
 		+ "FROM VotingItem ";
 basicQuery += " WHERE VotingItem.ID = " + param;
-String contactQuery = "SELECT Title, Description, CONCAT(FirstName, IFNULL(CONCAT(' ', MiddleName, ' '), ' '), LastName) AS Name, Choice "
+String contactQuery = "SELECT CONCAT(FirstName, IFNULL(CONCAT(' ', MiddleName, ' '), ' '), LastName) AS Name, Choice "
 		+ " FROM VotingItem "
 		+ "	JOIN VotingRecord ON (VotingRecord.VoteId = VotingItem.Id) "
 		+ " JOIN Candidate ON (VotingRecord.CandidateId = Candidate.Id) "
@@ -30,7 +30,7 @@ contactQuery += " WHERE VotingItem.ID = " + param;
     <% /* Execute the query and display a table with results: */ %>
     <% session.setAttribute("query", basicQuery); /* pass query to query.jspf */ %>
 	<%@ include file="WEB-INF/jspf/query.jspf" %>
-    <h1>Voters</h1>
+    <h1>Candidate Votes</h1>
     <% /* Execute the query and display a table with results: */ %>
     <% session.setAttribute("query", contactQuery); /* pass query to query.jspf */ %>
     <%@ include file="WEB-INF/jspf/query.jspf" %>

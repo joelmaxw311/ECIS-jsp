@@ -11,7 +11,7 @@ String basicQuery = "SELECT Title, Description "
 basicQuery += " WHERE VotingItem.ID = " + param;
 String contactQuery = "SELECT CONCAT(FirstName, IFNULL(CONCAT(' ', MiddleName, ' '), ' '), LastName) AS Name, Choice "
 		+ " FROM VotingItem "
-		+ "	JOIN VotingRecord ON (VotingRecord.VoteId = VotingItem.Id) "
+		+ "	JOIN VotingRecord ON (VotingRecord.BillId = VotingItem.Id) "
 		+ " JOIN Candidate ON (VotingRecord.CandidateId = Candidate.Id) "
 		+ " JOIN Vote ON (VotingRecord.VoteId = Vote.Id) ";
 contactQuery += " WHERE VotingItem.ID = " + param;

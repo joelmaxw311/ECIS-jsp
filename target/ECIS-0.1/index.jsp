@@ -22,8 +22,17 @@
                 <input type="text" name="keywords" class="form-control" placeholder="(leave blank for no filter)" >
                 <button type="submit" name="save" class="btn btn-primary">Search Voting Items</button>
             </form>        
-            <br>
-            <ul>
+            
+			<br/>
+
+            <form class="form-inline" method="post" action="candidatelocator.jsp">
+                <input type="text" name="keywords" class="form-control" placeholder="type your city" >
+                <button type="submit" name="save" class="btn btn-primary">Find candidates in your city</button>
+            </form>        
+            
+			<br/>
+			
+			<ul>
                 <li><a href="parties.jsp">Political Parties</a></li>
                 <li><a href="states.jsp">States</a></li>
                 <li><a href="locations.jsp">Locations</a></li>

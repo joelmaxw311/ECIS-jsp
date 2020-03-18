@@ -5,7 +5,7 @@
 String paramName = "keywords";
 String param = request.getParameter(paramName);
 String heading = "Candidates";
-String[] criteria = { "firstName", "middleName", "lastName", "City", "State.name", "State.id", "CONCAT(City, ' ', State.name)" };
+String[] criteria = { "firstName", "middleName", "lastName", "City", "State.name", "State.id", "CONCAT(City, ' ', State.name)", "CONCAT(`FirstName`, IFNULL(CONCAT(' ', `MiddleName`, ' '), ' '), `LastName`)", "CONCAT(`FirstName`, ' ', `LastName`)" };
 
 /* Execute the query and display a table with results: */
 session.setAttribute("paramName", paramName); /* pass to candidates.jspf */

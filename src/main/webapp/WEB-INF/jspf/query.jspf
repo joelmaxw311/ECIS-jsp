@@ -24,7 +24,7 @@ try {
     resultMeta = resultSet.getMetaData();              %>
     <tr>
 <%  for (int col = 1; col <= resultMeta.getColumnCount(); col++) { %>
-<td><%=resultMeta.getColumnName(col) %></td>
+<td><%=resultMeta.getColumnLabel(col) %></td>
 <%  } /* end for loop */        %>
     </tr>
 <%  while(resultSet.next()) {   %>

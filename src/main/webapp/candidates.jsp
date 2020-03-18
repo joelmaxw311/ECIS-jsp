@@ -6,29 +6,37 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("keywords");
-String searchQuery = "SELECT CONCAT('<a href=\"candidateprofile.jsp?candidateid=', Candidate.Id, '\">view</a>') AS Profile, FirstName AS `First Name`, MiddleName AS `Middle Name`, LastName AS `Last Name`, CONCAT(City, ', ', State.Name) AS `Location` "
-		+ "FROM Candidate "
-		+ "JOIN Location ON (Candidate.LocationId = Location.Id) "
-                + "JOIN State ON (State.Id = Location.StateId) ";
+
+String profileForm = "CONCAT("
+        + "'<form class=\"form-inline\" method=\"post\" action=\"candidateprofile.jsp\">"
+        + "<input type=\"hidden\" name=\"candidateid\" value=\"', Candidate.Id, '\" />"
+        + "<button type=\"submit\" name=\"view\" class=\"btn btn-primary\">view</button>"
+        + "</form>')";
+
+String searchQuery = "SELECT "
+            + profileForm + " AS Profile,"
+            + " FirstName,"
+            + " MiddleName,"
+            + " LastName,"
+            + " CONCAT(City, ', ', State.Name) AS `Location`"
+        + " FROM Candidate"
+        + " JOIN Location ON (Candidate.LocationId = Location.Id)"
+        + " JOIN State ON (State.Id = Location.StateId)";
 boolean haveKW = param != null && !param.isEmpty(); // are keywords given?
 if (haveKW) {
-    String[] criteria = { "firstName", "middleName", "lastName", "State.id", "State.name" };
+    String[] criteria = { "firstName", "middleName", "lastName", "City", "State.name", "State.id", "CONCAT(City, ' ', State.name)" };
     List<String> criteriaConditions = new ArrayList();
     for (String k : param.split(", ")) {
         List<String> conditions = new ArrayList();
-        for (String ok : k.split(" + ")) {
-            List<String> orConditions = new ArrayList();
-            for (String col : criteria) {
-                String condition = col + " LIKE '%" + ok.trim() + "%'";
-                orConditions.add(condition);
-            }
-            conditions.add("( " + String.join(" OR ", orConditions) + " )");
+        for (String col : criteria) {
+            String condition = col + " LIKE '%" + k.trim() + "%'";
+            conditions.add(condition);
         }
-        criteriaConditions.add("( " + String.join(" AND ", conditions) + " )");
+        criteriaConditions.add("( " + String.join(" OR ", conditions) + " )");
     }
-    searchQuery += " WHERE " + String.join(" OR ", criteriaConditions);
+    searchQuery += " WHERE " + String.join(" AND ", criteriaConditions);
 }
-searchQuery = "SELECT `Profile`, CONCAT(`First Name`, IFNULL(CONCAT(' ', `Middle Name`, ' '), ' '), `Last Name`) AS Name, `Location` FROM ( " + searchQuery + " ) Filtered";
+searchQuery = "SELECT `Profile`, CONCAT(`FirstName`, IFNULL(CONCAT(' ', `MiddleName`, ' '), ' '), `LastName`) AS Name, `Location` FROM ( " + searchQuery + " ) Filtered";
 System.out.println(searchQuery);
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

@@ -15,7 +15,13 @@ basicQuery += " WHERE Candidate.ID = " + param;
 String contactQuery = "SELECT Phone, Email, Website "
 		+ "FROM Candidate";
 contactQuery += " WHERE Candidate.ID = " + param;
-String votingQuery = "SELECT Title, Description, Choice "
+
+String votingitemForm = "CONCAT("
+        + "'<form class=\"form-inline\" method=\"post\" action=\"votingitem.jsp\">"
+        + "<input type=\"hidden\" name=\"votingitemid\" value=\"', VotingItem.Id, '\" />"
+        + "<button type=\"submit\" name=\"view\" class=\"btn btn-primary\">view</button>"
+        + "</form>')";
+String votingQuery = "SELECT " + votingitemForm + " AS Votes, Title, Description, Choice "
 		+ "FROM VotingItem "
 		+ "	JOIN VotingRecord ON (VotingRecord.BillId = VotingItem.Id) "
 		+ " JOIN Candidate ON (VotingRecord.CandidateId = Candidate.Id) "

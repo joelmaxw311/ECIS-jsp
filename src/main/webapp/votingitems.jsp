@@ -6,7 +6,12 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("keywords");
-String searchQuery = "SELECT Title, Description, CONCAT('<a href=\"votingitem.jsp?votingitemid=', ID, '\">view</a>') AS Votes FROM VotingItem";
+String profileForm = "CONCAT("
+        + "'<form class=\"form-inline\" method=\"post\" action=\"votingitem.jsp\">"
+        + "<input type=\"hidden\" name=\"votingitemid\" value=\"', VotingItem.Id, '\" />"
+        + "<button type=\"submit\" name=\"view\" class=\"btn btn-primary\">view</button>"
+        + "</form>')";
+String searchQuery = "SELECT " + profileForm + " AS Votes, Title, Description FROM VotingItem";
 boolean haveKW = param != null && !param.isEmpty(); // are keywords given?
 if (haveKW) {
     String[] criteria = { "title", "description" };
@@ -25,7 +30,7 @@ if (haveKW) {
     }
     searchQuery += " WHERE " + String.join(" OR ", criteriaConditions);
 }
-searchQuery = "SELECT `Title`, `Description`, `Votes` FROM ( " + searchQuery + " ) Filtered";
+searchQuery = "SELECT `Votes`, `Title`, `Description` FROM ( " + searchQuery + " ) Filtered";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">

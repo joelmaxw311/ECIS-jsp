@@ -6,14 +6,22 @@
 <%
 /* get search keywords and build an SQL query */
 String param = request.getParameter("votingitemid");
+String candidateForm = "CONCAT("
+        + "'<form class=\"form-inline\" method=\"post\" action=\"candidateprofile.jsp\">"
+        + "<input type=\"hidden\" name=\"candidateid\" value=\"', Candidate.Id, '\" />"
+        + "<button type=\"submit\" name=\"view\" class=\"btn btn-primary\">view</button>"
+        + "</form>')";
 String basicQuery = "SELECT Title, Description "
 		+ "FROM VotingItem ";
 basicQuery += " WHERE VotingItem.ID = " + param;
-String contactQuery = "SELECT CONCAT(FirstName, IFNULL(CONCAT(' ', MiddleName, ' '), ' '), LastName) AS Name, Choice "
-		+ " FROM VotingItem "
-		+ "	JOIN VotingRecord ON (VotingRecord.BillId = VotingItem.Id) "
-		+ " JOIN Candidate ON (VotingRecord.CandidateId = Candidate.Id) "
-		+ " JOIN Vote ON (VotingRecord.VoteId = Vote.Id) ";
+String contactQuery = "SELECT "
+            + candidateForm + " AS Profile,"
+            + " CONCAT(FirstName, IFNULL(CONCAT(' ', MiddleName, ' '), ' '), LastName) AS Name,"
+            + " Choice "
+        + " FROM VotingItem"
+            + " JOIN VotingRecord ON (VotingRecord.BillId = VotingItem.Id)"
+            + " JOIN Candidate ON (VotingRecord.CandidateId = Candidate.Id)"
+            + " JOIN Vote ON (VotingRecord.VoteId = Vote.Id)";
 contactQuery += " WHERE VotingItem.ID = " + param;
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
